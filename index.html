@@ -4,10 +4,512 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>小兔鲜儿 · 新鲜 惠民 快捷</title>
-  <!-- 引入 Font Awesome 图标库，保持视觉元素统一 -->
+  <!-- 引入 Font Awesome 图标库（仍保留用于部分小图标） -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- 引入自定义样式 -->
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* 头部 */
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #00A76D;
+      letter-spacing: 1px;
+    }
+
+    .logo i {
+      color: #FF7A45;
+      margin-right: 6px;
+    }
+
+    .slogan {
+      font-size: 14px;
+      color: #888;
+      margin-left: 4px;
+      font-weight: 400;
+      border-left: 1px solid #ddd;
+      padding-left: 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #00A76D;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3px;
+      background: #00A76D;
+      border-radius: 2px;
+    }
+
+    .search-cart {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #f5f5f5;
+      border-radius: 20px;
+      padding: 6px 16px;
+      gap: 8px;
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      width: 180px;
+    }
+
+    .search-box i {
+      color: #999;
+      font-size: 14px;
+    }
+
+    .cart-icon {
+      font-size: 22px;
+      color: #333;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .cart-icon span {
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      background: #FF7A45;
+      color: white;
+      border-radius: 10px;
+      font-size: 11px;
+      padding: 2px 6px;
+      font-weight: bold;
+    }
+
+    /* 横幅 - 使用真实图片作为背景 */
+    .banner {
+      margin-top: 20px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: url('images/banner_1.png') center/cover no-repeat;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0, 167, 109, 0.12);
+      /* 如果图片加载失败，保留文字背景渐变 */
+      background-color: #e0f7e9;
+    }
+
+    .banner-content {
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+
+    .banner-content h2 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .banner-content p {
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    .banner-dots {
+      position: absolute;
+      bottom: 20px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #fff;
+      width: 24px;
+      border-radius: 10px;
+    }
+
+    /* 板块标题 */
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 50px;
+      margin-bottom: 24px;
+    }
+
+    .title-group h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+
+    .title-group p {
+      font-size: 15px;
+      color: #888;
+      font-weight: 400;
+    }
+
+    .view-all {
+      color: #888;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .view-all:hover {
+      color: #00A76D;
+    }
+
+    /* 新鲜好物网格 */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 28px rgba(0, 167, 109, 0.12);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 180px;
+      background: #f0faf5; /* 备用背景 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-info {
+      padding: 16px;
+    }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      color: #FF7A45;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .product-price small {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* 人气推荐 */
+    .popular-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      height: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .popular-img {
+      width: 45%;
+      background: linear-gradient(120deg, #ffe6d5, #ffc9a9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .popular-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .popular-desc {
+      width: 55%;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .popular-desc h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .popular-desc p {
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      background: #FF7A45;
+      color: white;
+      padding: 8px 22px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #e86530;
+    }
+
+    /* 我猜得到你的需要 */
+    .guess-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .guess-card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px 20px 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
+    }
+
+    .guess-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .guess-icon {
+      font-size: 32px;
+      color: #00A76D;
+      margin-bottom: 16px;
+    }
+
+    .guess-card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .guess-card p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* 热门品牌 */
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+
+    .brand-item {
+      background: white;
+      border-radius: 12px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+      color: #555;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transition: all 0.2s;
+      border: 1px solid #f0f0f0;
+    }
+
+    .brand-item:hover {
+      color: #00A76D;
+      border-color: #b7e4d4;
+      box-shadow: 0 8px 20px rgba(0,167,109,0.1);
+    }
+
+    /* 最新专题 */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .topic-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    }
+
+    .topic-img {
+      height: 160px;
+      background: #eef7f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .topic-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .topic-info {
+      padding: 16px 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topic-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .topic-stats i {
+      margin-right: 4px;
+      color: #00A76D;
+    }
+
+    .topic-tag {
+      background: #f0faf5;
+      color: #00A76D;
+      padding: 4px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* 页脚 */
+    .footer {
+      margin-top: 60px;
+      padding: 30px 0;
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+      border-top: 1px solid #eee;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .product-grid, .brand-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .guess-grid, .topic-grid {
+        grid-template-columns: 1fr;
+      }
+      .popular-card {
+        flex-direction: column;
+        height: auto;
+      }
+      .popular-img, .popular-desc {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -40,7 +542,7 @@
   </header>
 
   <main class="container">
-    <!-- 横幅区 -->
+    <!-- 横幅：使用 banner_1.png 作为背景 -->
     <div class="banner">
       <div class="banner-content">
         <h2><i class="fas fa-leaf"></i> 春日鲜味季</h2>
@@ -63,28 +565,36 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><i class="fas fa-apple-alt"></i></div>
+        <div class="product-img">
+          <img src="images/fresh_goods_1.jpg" alt="新疆阿克苏苹果">
+        </div>
         <div class="product-info">
           <div class="product-name">新疆阿克苏苹果</div>
           <div class="product-price"><small>¥</small>49.9</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><i class="fas fa-carrot"></i></div>
+        <div class="product-img">
+          <img src="images/fresh_goods_2.jpg" alt="有机胡萝卜">
+        </div>
         <div class="product-info">
           <div class="product-name">有机胡萝卜</div>
           <div class="product-price"><small>¥</small>12.8</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><i class="fas fa-fish"></i></div>
+        <div class="product-img">
+          <img src="images/fresh_goods_3.jpg" alt="深海银鳕鱼">
+        </div>
         <div class="product-info">
           <div class="product-name">深海银鳕鱼</div>
           <div class="product-price"><small>¥</small>139.0</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><i class="fas fa-seedling"></i></div>
+        <div class="product-img">
+          <img src="images/fresh_goods_4.jpg" alt="有机上海青">
+        </div>
         <div class="product-info">
           <div class="product-name">有机上海青</div>
           <div class="product-price"><small>¥</small>9.9</div>
@@ -102,7 +612,7 @@
     </div>
     <div class="popular-card">
       <div class="popular-img">
-        <i class="fas fa-crown"></i>
+        <img src="images/fresh_goods_cover.png" alt="智利车厘子">
       </div>
       <div class="popular-desc">
         <h3>智利车厘子 超大果</h3>
@@ -159,7 +669,9 @@
     </div>
     <div class="topic-grid">
       <div class="topic-card">
-        <div class="topic-img"><i class="fas fa-leaf"></i></div>
+        <div class="topic-img">
+          <img src="images/fresh_goods_5.jpg" alt="饮食安全">
+        </div>
         <div class="topic-info">
           <div class="topic-stats">
             <span><i class="fas fa-eye"></i> 1220</span>
@@ -170,7 +682,9 @@
         </div>
       </div>
       <div class="topic-card">
-        <div class="topic-img"><i class="fas fa-utensils"></i></div>
+        <div class="topic-img">
+          <img src="images/fresh_goods_6.jpg" alt="观影美食">
+        </div>
         <div class="topic-info">
           <div class="topic-stats">
             <span><i class="fas fa-eye"></i> 1220</span>
@@ -181,7 +695,9 @@
         </div>
       </div>
       <div class="topic-card">
-        <div class="topic-img"><i class="fas fa-blender"></i></div>
+        <div class="topic-img">
+          <img src="images/fresh_goods_7.jpg" alt="厨房技巧">
+        </div>
         <div class="topic-info">
           <div class="topic-stats">
             <span><i class="fas fa-eye"></i> 1220</span>
@@ -198,7 +714,7 @@
     <div class="container">
       <p>© 2025 小兔鲜儿 - 新鲜 惠民 快捷 | 用心守护您的餐桌</p>
       <!-- 学号姓名展示（实验要求） -->
-      <p style="margin-top:8px; color:#aaa; font-size:12px;">学号：202311001 | 姓名：张三</p>
+      <p style="margin-top:8px; color:#aaa; font-size:12px;">学号：24215220132 | 姓名：黄政源</p>
     </div>
   </footer>
 </body>
